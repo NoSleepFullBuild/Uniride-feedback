@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { Feedback } from "../entities/feedback.entity";
+import { Feedback } from '@nosleepfullbuild/uniride-library/dist/entity/feedback/feedback.entity';
 import { AppDataSource } from "../app-data-source";
 
 export class FeedbackService {
@@ -11,17 +11,43 @@ export class FeedbackService {
     }
 
     async getFeedbacks() {
+
         try {
             const feedbacks = await this.repository.find();
             return feedbacks;
         } catch (error) {
             throw error;
         }
+
     }
 
     async getFeedbackById(id: number) {
         try {
-            const feedback = await this.repository.findOneBy({ id });
+            const feedback = await this.repository.findOneBy({ id: id });
+            if (!feedback) {
+                throw new Error('Feedback not found');
+            }
+            return feedback;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getFeedbackByTripId(tripId: number) {
+        try {
+            const feedback = await this.repository.findOneBy({ tripId: tripId });
+            if (!feedback) {
+                throw new Error('Feedback not found');
+            }
+            return feedback;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getFeedbackByUserId(userId: number) {
+        try {
+            const feedback = await this.repository.findOneBy({ userId: userId });
             if (!feedback) {
                 throw new Error('Feedback not found');
             }
@@ -57,6 +83,7 @@ export class FeedbackService {
         rating: number;
         comment: string;
     }) {
+
         try {
             const feedback = await this.repository.findOneBy({ id });
             if (!feedback) {
@@ -69,6 +96,20 @@ export class FeedbackService {
 
             await this.repository.update(id, feedbackData);
             return feedback;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteFeedback(id: number) {
+        try {
+            const feedback = await this.repository.findOneBy({ id });
+            if (!feedback) {
+                throw new Error('Feedback not found');
+            }
+
+            await this.repository.delete({ id });
+            return { message: 'Feedback deleted successfully' };
         } catch (error) {
             throw error;
         }

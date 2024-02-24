@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm"
 import 'reflect-metadata';
+import { Feedback } from "@nosleepfullbuild/uniride-library/dist/entity/feedback/feedback.entity";
 
 export const AppDataSource = new DataSource({
     host: 'localhost',
@@ -10,7 +11,7 @@ export const AppDataSource = new DataSource({
     type: 'postgres',
     synchronize: true,
     logging: false,
-    entities: ['src/entities/**/*.entity{.ts,.js}'],
+    entities: [Feedback],
     migrations: ['src/migrations/**/*{.ts,.js}'],
     subscribers: ['src/subscribers/**/*{.ts,.js}'],
 });

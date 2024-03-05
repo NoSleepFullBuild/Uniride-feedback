@@ -1,13 +1,16 @@
 import { Repository } from "typeorm";
 import { Feedback } from '@nosleepfullbuild/uniride-library/dist/entity/feedback/feedback.entity';
 import { AppDataSource } from "../app-data-source";
+import { User } from "@nosleepfullbuild/uniride-library/dist/entity/user/user.entity";
 
 export class FeedbackService {
 
-    private repository: Repository<Feedback>
+    private repository: Repository<Feedback>;
+    private repositoryUser: Repository<User>;
 
     constructor() {
         this.repository = AppDataSource.getRepository(Feedback);
+        this.repositoryUser = AppDataSource.getRepository(User);
     }
 
     async getFeedbacks() {
@@ -47,6 +50,11 @@ export class FeedbackService {
 
     async getFeedbackByUserId(userId: number) {
         try {
+            const user = await this.repositoryUser.findOneBy({ id: userId });
+            if (!user) {
+                throw new Error('User not found');
+            }
+
             const feedback = await this.repository.findOneBy({ userId: userId });
             if (!feedback) {
                 throw new Error('Feedback not found');
@@ -85,7 +93,7 @@ export class FeedbackService {
     }) {
 
         try {
-            const feedback = await this.repository.findOneBy({ id });
+            const feedback = await this.repository.findBy({ id: feedbackData.userId });
             if (!feedback) {
                 throw new Error('Feedback not found');
             }

@@ -29,9 +29,6 @@ app.put('/api/feedbacks/:id', feedbackController.updateFeedback.bind(feedbackCon
 app.delete('/api/feedbacks/:id', feedbackController.deleteFeedback.bind(feedbackController));
 
 
-
-
-
 app.listen(3004, ()=>{
     console.log("Feedback service is running on port 3004")
 })

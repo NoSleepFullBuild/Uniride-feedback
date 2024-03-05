@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  feedback_service:
+  feedback_service_prod:
     build:
       context: .
       dockerfile: Dockerfile

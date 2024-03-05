@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/app.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node app/index.js",
     "test": "jest --coverage",
     "typeorm": "typeorm-ts-node-esm"
   },
